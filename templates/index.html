@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CropSense | Crop Recommendation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='crop.jpeg') }}">
+</head>
+<body>
+    <div class="background-glow glow-one"></div>
+    <div class="background-glow glow-two"></div>
+
+    <header class="navbar">
+        <a href="/" class="brand">
+            <span class="brand-mark">🌱</span>
+            <span>Crop<span>Sense</span></span>
+        </a>
+        <div class="nav-badge">AI Crop Recommendation</div>
+    </header>
+
+    <main class="container">
+        <section class="hero">
+            <div class="hero-copy">
+                <p class="eyebrow">SMART AGRICULTURE • MACHINE LEARNING</p>
+                <h1>Find the right crop for your <span>soil & climate.</span></h1>
+                <p class="hero-text">
+                    Enter the soil nutrient and environmental conditions from your field.
+                    The trained machine-learning model will recommend the most suitable crop.
+                </p>
+                <div class="stats">
+                    <div class="stat">
+                        <strong>7</strong>
+                        <span>Input factors</span>
+                    </div>
+                    <div class="stat">
+                        <strong>22</strong>
+                        <span>Crop classes</span>
+                    </div>
+                    <div class="stat">
+                        <strong>{{ "%.1f"|format(model_accuracy * 100) }}%</strong>
+                        <span>Test accuracy</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hero-visual">
+                <div class="orb">
+                    <div class="plant">🌾</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="card">
+            <div class="card-heading">
+                <div>
+                    <p class="section-label">FIELD PARAMETERS</p>
+                    <h2>Enter your conditions</h2>
+                </div>
+                <span class="model-chip">{{ model_name }}</span>
+            </div>
+
+            <form action="/predict" method="POST">
+                <div class="form-grid">
+                    <div class="field">
+                        <label for="N">Nitrogen (N)</label>
+                        <input id="N" name="N" type="number" step="any" min="0" placeholder="e.g. 90" value="{{ submitted.N if submitted else '' }}" required>
+                        <small>Soil nitrogen content</small>
+                    </div>
+
+                    <div class="field">
+                        <label for="P">Phosphorus (P)</label>
+                        <input id="P" name="P" type="number" step="any" min="0" placeholder="e.g. 42" value="{{ submitted.P if submitted else '' }}" required>
+                        <small>Soil phosphorus content</small>
+                    </div>
+
+                    <div class="field">
+                        <label for="K">Potassium (K)</label>
+                        <input id="K" name="K" type="number" step="any" min="0" placeholder="e.g. 43" value="{{ submitted.K if submitted else '' }}" required>
+                        <small>Soil potassium content</small>
+                    </div>
+
+                    <div class="field">
+                        <label for="temperature">Temperature (°C)</label>
+                        <input id="temperature" name="temperature" type="number" step="any" placeholder="e.g. 21.0" value="{{ submitted.temperature if submitted else '' }}" required>
+                        <small>Average field temperature</small>
+                    </div>
+
+                    <div class="field">
+                        <label for="humidity">Humidity (%)</label>
+                        <input id="humidity" name="humidity" type="number" step="any" min="0" max="100" placeholder="e.g. 80" value="{{ submitted.humidity if submitted else '' }}" required>
+                        <small>Relative humidity</small>
+                    </div>
+
+                    <div class="field">
+                        <label for="ph">Soil pH</label>
+                        <input id="ph" name="ph" type="number" step="any" min="0" max="14" placeholder="e.g. 6.5" value="{{ submitted.ph if submitted else '' }}" required>
+                        <small>Acidity / alkalinity</small>
+                    </div>
+
+                    <div class="field">
+                        <label for="rainfall">Rainfall (mm)</label>
+                        <input id="rainfall" name="rainfall" type="number" step="any" min="0" placeholder="e.g. 200" value="{{ submitted.rainfall if submitted else '' }}" required>
+                        <small>Expected rainfall</small>
+                    </div>
+                </div>
+
+                {% if error %}
+                    <div class="error-box">{{ error }}</div>
+                {% endif %}
+
+                <button type="submit" class="predict-btn">
+                    <span>Predict Best Crop</span>
+                    <span class="arrow">→</span>
+                </button>
+            </form>
+        </section>
+
+        {% if prediction %}
+        <section class="result-card">
+            <div class="result-main">
+                <div class="result-icon">{{ icon }}</div>
+                <div>
+                    <p class="section-label">MODEL RECOMMENDATION</p>
+                    <h2>{{ prediction }}</h2>
+                    <p>{{ description }}</p>
+                </div>
+            </div>
+
+            {% if probabilities %}
+            <div class="top-results">
+                <p class="section-label">TOP PREDICTIONS</p>
+                {% for item in probabilities %}
+                <div class="prob-row">
+                    <div class="prob-title">
+                        <span>{{ item.crop|title }}</span>
+                        <strong>{{ item.probability }}%</strong>
+                    </div>
+                    <div class="progress">
+                        <div class="progress-fill" style="width: {{ item.probability }}%"></div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </section>
+        {% endif %}
+
+        <section class="info-grid">
+            <div class="info-card">
+                <span>01</span>
+                <h3>Measure</h3>
+                <p>Collect soil N, P, K and pH values along with local temperature, humidity and rainfall.</p>
+            </div>
+            <div class="info-card">
+                <span>02</span>
+                <h3>Predict</h3>
+                <p>The trained classification model processes the seven input features together.</p>
+            </div>
+            <div class="info-card">
+                <span>03</span>
+                <h3>Decide</h3>
+                <p>Use the recommendation as an ML-based decision-support signal alongside local agricultural knowledge.</p>
+            </div>
+        </section>
+
+        <footer>
+            <span>CropSense</span>
+            <span>Built with Python • Flask • Scikit-learn</span>
+        </footer>
+    </main>
+</body>
+</html>

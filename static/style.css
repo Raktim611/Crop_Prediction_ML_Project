@@ -1,0 +1,471 @@
+:root {
+    --bg: #07110d;
+    --panel: rgba(13, 28, 21, 0.82);
+    --panel-2: rgba(19, 39, 29, 0.76);
+    --border: rgba(148, 255, 188, 0.14);
+    --text: #f1f7f2;
+    --muted: #9db0a3;
+    --green: #63e69a;
+    --green-2: #29c77a;
+    --danger: #ff7777;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    min-height: 100vh;
+    color: var(--text);
+    background:
+        radial-gradient(circle at 10% 0%, rgba(49, 166, 98, 0.12), transparent 34%),
+        radial-gradient(circle at 90% 30%, rgba(30, 120, 75, 0.10), transparent 30%),
+        var(--bg);
+    font-family: "DM Sans", sans-serif;
+    overflow-x: hidden;
+}
+
+.background-glow {
+    position: fixed;
+    width: 360px;
+    height: 360px;
+    border-radius: 50%;
+    filter: blur(110px);
+    pointer-events: none;
+    opacity: 0.12;
+}
+
+.glow-one {
+    background: #40e58b;
+    top: 15%;
+    left: -180px;
+}
+
+.glow-two {
+    background: #18a7ff;
+    right: -180px;
+    bottom: 10%;
+}
+
+.navbar {
+    width: min(1180px, calc(100% - 40px));
+    margin: 0 auto;
+    height: 82px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--text);
+    text-decoration: none;
+    font-family: "Outfit", sans-serif;
+    font-size: 23px;
+    font-weight: 800;
+}
+
+.brand > span:last-child span {
+    color: var(--green);
+}
+
+.brand-mark {
+    width: 38px;
+    height: 38px;
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: rgba(99, 230, 154, 0.08);
+}
+
+.nav-badge, .model-chip {
+    padding: 8px 13px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    color: var(--muted);
+    background: rgba(255,255,255,0.025);
+    font-size: 12px;
+}
+
+.container {
+    width: min(1180px, calc(100% - 40px));
+    margin: 0 auto;
+}
+
+.hero {
+    min-height: 420px;
+    display: grid;
+    grid-template-columns: 1.25fr .75fr;
+    align-items: center;
+    gap: 40px;
+    padding: 60px 0 70px;
+}
+
+.eyebrow, .section-label {
+    color: var(--green);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+}
+
+.hero h1 {
+    max-width: 760px;
+    margin: 15px 0 20px;
+    font-family: "Outfit", sans-serif;
+    font-size: clamp(42px, 6vw, 74px);
+    line-height: .98;
+    letter-spacing: -0.045em;
+}
+
+.hero h1 span {
+    color: var(--green);
+}
+
+.hero-text {
+    max-width: 650px;
+    color: var(--muted);
+    font-size: 16px;
+    line-height: 1.75;
+}
+
+.stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 32px;
+}
+
+.stat {
+    min-width: 120px;
+    padding: 15px 17px;
+    border: 1px solid var(--border);
+    border-radius: 15px;
+    background: rgba(255,255,255,0.025);
+}
+
+.stat strong {
+    display: block;
+    font-family: "Outfit", sans-serif;
+    font-size: 24px;
+}
+
+.stat span {
+    color: var(--muted);
+    font-size: 11px;
+}
+
+.hero-visual {
+    display: grid;
+    place-items: center;
+}
+
+.orb {
+    width: 280px;
+    height: 280px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    border: 1px solid rgba(99, 230, 154, 0.22);
+    background:
+        radial-gradient(circle, rgba(99,230,154,.20), rgba(99,230,154,.025) 62%, transparent 63%);
+    box-shadow: 0 0 100px rgba(48, 218, 123, .08);
+}
+
+.plant {
+    font-size: 115px;
+    filter: drop-shadow(0 15px 30px rgba(0,0,0,.4));
+    animation: float 4s ease-in-out infinite;
+}
+
+@keyframes float {
+    50% { transform: translateY(-10px) rotate(-2deg); }
+}
+
+.card, .result-card, .info-card {
+    border: 1px solid var(--border);
+    background: linear-gradient(145deg, var(--panel), var(--panel-2));
+    box-shadow: 0 25px 80px rgba(0,0,0,.16);
+    backdrop-filter: blur(18px);
+}
+
+.card {
+    padding: 32px;
+    border-radius: 24px;
+}
+
+.card-heading {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    align-items: flex-start;
+    margin-bottom: 28px;
+}
+
+.card h2, .result-card h2 {
+    font-family: "Outfit", sans-serif;
+    font-size: 28px;
+    margin-top: 7px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.field label {
+    display: block;
+    margin-bottom: 9px;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.field input {
+    width: 100%;
+    height: 50px;
+    padding: 0 15px;
+    border: 1px solid rgba(255,255,255,.09);
+    border-radius: 12px;
+    outline: none;
+    color: var(--text);
+    background: rgba(0,0,0,.22);
+    font: inherit;
+    transition: .2s ease;
+}
+
+.field input:focus {
+    border-color: rgba(99, 230, 154, .7);
+    box-shadow: 0 0 0 4px rgba(99,230,154,.07);
+}
+
+.field small {
+    display: block;
+    margin-top: 7px;
+    color: var(--muted);
+    font-size: 11px;
+}
+
+.predict-btn {
+    width: 100%;
+    height: 56px;
+    margin-top: 28px;
+    border: 0;
+    border-radius: 13px;
+    color: #04110a;
+    background: linear-gradient(135deg, var(--green), #31ce82);
+    font: 700 15px "DM Sans", sans-serif;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.predict-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 35px rgba(55, 214, 126, .18);
+}
+
+.arrow {
+    font-size: 20px;
+}
+
+.error-box {
+    margin-top: 22px;
+    padding: 13px 15px;
+    border: 1px solid rgba(255,119,119,.25);
+    border-radius: 10px;
+    color: #ffaaaa;
+    background: rgba(255,80,80,.06);
+}
+
+.result-card {
+    margin-top: 22px;
+    padding: 28px;
+    border-radius: 24px;
+}
+
+.result-main {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+}
+
+.result-icon {
+    width: 82px;
+    height: 82px;
+    flex: 0 0 82px;
+    display: grid;
+    place-items: center;
+    border-radius: 20px;
+    font-size: 45px;
+    background: rgba(99,230,154,.09);
+    border: 1px solid var(--border);
+}
+
+.result-card h2 {
+    font-size: 38px;
+}
+
+.result-main p:last-child {
+    max-width: 680px;
+    margin-top: 8px;
+    color: var(--muted);
+    line-height: 1.65;
+}
+
+.top-results {
+    margin-top: 30px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+}
+
+.prob-row {
+    margin-top: 16px;
+}
+
+.prob-title {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 7px;
+    font-size: 13px;
+}
+
+.prob-title strong {
+    color: var(--green);
+}
+
+.progress {
+    height: 7px;
+    overflow: hidden;
+    border-radius: 99px;
+    background: rgba(255,255,255,.06);
+}
+
+.progress-fill {
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, var(--green-2), var(--green));
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin: 22px 0 50px;
+}
+
+.info-card {
+    padding: 24px;
+    border-radius: 20px;
+}
+
+.info-card > span {
+    color: var(--green);
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.info-card h3 {
+    margin: 12px 0 8px;
+    font-family: "Outfit", sans-serif;
+    font-size: 21px;
+}
+
+.info-card p {
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.65;
+}
+
+footer {
+    padding: 24px 0 38px;
+    display: flex;
+    justify-content: space-between;
+    color: var(--muted);
+    font-size: 12px;
+    border-top: 1px solid rgba(255,255,255,.05);
+}
+
+footer span:first-child {
+    color: var(--green);
+    font-weight: 700;
+}
+
+@media (max-width: 800px) {
+    .hero {
+        grid-template-columns: 1fr;
+        padding: 45px 0;
+    }
+
+    .hero-visual {
+        display: none;
+    }
+
+    .form-grid,
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .card {
+        padding: 22px;
+    }
+
+    .navbar {
+        height: 70px;
+    }
+
+    .nav-badge {
+        display: none;
+    }
+}
+
+@media (max-width: 520px) {
+    .container, .navbar {
+        width: min(100% - 24px, 1180px);
+    }
+
+    .hero h1 {
+        font-size: 43px;
+    }
+
+    .stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .stat {
+        min-width: 0;
+        padding: 12px;
+    }
+
+    .stat strong {
+        font-size: 20px;
+    }
+
+    .result-main {
+        align-items: flex-start;
+    }
+
+    .result-icon {
+        width: 60px;
+        height: 60px;
+        flex-basis: 60px;
+        font-size: 31px;
+    }
+
+    .result-card h2 {
+        font-size: 29px;
+    }
+
+    footer {
+        flex-direction: column;
+        gap: 8px;
+    }
+}
